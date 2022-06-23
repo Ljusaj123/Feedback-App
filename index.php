@@ -26,6 +26,18 @@ if(isset($_POST['submit'])){
       $body=filter_input(INPUT_POST, 'body', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     }
 
+    if(empty($nameErr) && empty($emailErr) && empty($bodyErr)){
+      //add to database
+      $sql = "INSERT INTO feedback (name,email,body) VALUES ('$name', '$email', '$body')";
+
+      if(mysqli_query($connection, $sql)){
+        header('Location: feedback.php');
+        }else{
+          echo 'Error' . mysqli_error($connection);
+
+        }
+    }
+
 ?>
         <img src="./img/logo.png" class="w-25 mb-3" alt="" />
         <h2>Feedback</h2>
