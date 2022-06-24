@@ -4,6 +4,16 @@ $sql = "SELECT * FROM feedback";
 $result = mysqli_query($connection, $sql);
 $feedback = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
+
+<?php if (isset($_POST["delete"])) {
+    $id = $_POST["delete_id"];
+    $sql = "DELETE FROM feedback WHERE  id=$id";
+    if (mysqli_query($connection, $sql)) {
+        header("Location: feedback.php");
+    } else {
+        echo "Error" . mysqli_error($connection);
+    }
+} ?>
         <h2>Feedback</h2>
         <?php if (empty($feedback)): ?>
           <p class="lead mt3">There is no feedback</p>
@@ -37,6 +47,13 @@ $feedback = mysqli_fetch_all($result, MYSQLI_ASSOC);
               <div class="text-secondary mt-2">
               <a href="<?php echo $video_url; ?>"><?php echo $video_url; ?></a>
             </div>
+            
+            <form action="feedback.php" method="POST">
+              <input type="hidden" name="delete_id" value="<?php echo $id; ?>">
+              <input type="submit" name="delete" value="Delete" class="btn btn-outline-dark mt-4">
+
+            </form>
+            
           </div>
         </div>
         <?php endforeach; ?>
