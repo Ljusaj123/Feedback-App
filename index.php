@@ -1,40 +1,55 @@
 <?php include 'inc/header.php';?>
 
 <?php
-$name=$email=$body=$videoURL=$rating="";
-$nameErr=$emailErr=$bodyErr=$videoURLErr="";
+$name=$email=$body=$videoURL="";
+$rating= null;
+$nameErr=$emailErr=$bodyErr=$videoURLErr=$ratingErr="";
 
 //form submit
 if(isset($_POST['submit'])){
   //validate the name
   if(empty($_POST['name'])){
     $nameErr='Name is required';
-    }else{
+  }else{
       $name=filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    }
-} 
+  }
+
 //validate the email
   if(empty($_POST['email'])){
     $emailErr='Email is required';
-    }else{
+  }else{
       $email=filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    }
+  }
+
  //validate the feedback
   if(empty($_POST['body'])){
     $bodyErr='Feedback is required';
-    }else{
+  }else{
       $body=filter_input(INPUT_POST, 'body', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    }
+  }
+
     //validate the video url
-    if(empty($_POST['video_url'])){
+  if(empty($_POST['video_url'])){
     $videoURLErr='URL of video is required';
-    }else{
+  }else{
       $videoURL=filter_input(INPUT_POST, 'video_url', FILTER_SANITIZE_URL);
-    }
+  }
 
-    $rating= filter_input(INPUT_POST, 'rating', FILTER_SANITIZE_NUMBER_INT);
+  //validate rating
+  $min=1;
+  $max=5;
+  
+  if(empty($_POST['rating'])){
+    $rating=0;
+    var_dump($rating);
+  }elseif(filter_var($_POST['rating'], FILTER_VALIDATE_INT, ["options" => ["min_range"=>$min, "max_range"=>$max]]) === false){
+    $ratingErr= "Rating should be in range of 1-5";
+  }else{
+    $rating= $_POST['rating'];
+    var_dump($rating);
 
-    if(empty($nameErr) && empty($emailErr) && empty($bodyErr) && empty($videoURLErr)){
+  }
+    if(empty($nameErr) && empty($emailErr) && empty($bodyErr) && empty($videoURLErr) && empty($ratingErr)){
       //add to database
       $sql = "INSERT INTO feedback (name,email,body,video_url, rating) VALUES ('$name', '$email', '$body','$videoURL', '$rating')";
 
@@ -42,9 +57,9 @@ if(isset($_POST['submit'])){
         header('Location: feedback.php');
         }else{
           echo 'Error' . mysqli_error($connection);
-
         }
     }
+  }
 
 ?>
         <img src="./img/logo.png" class="w-25 mb-3" alt="" />
@@ -68,11 +83,14 @@ if(isset($_POST['submit'])){
             <label for="name" class="form-label">Rating</label>
             <input
               type="text"
-              class="form-control"
+              class="form-control <?php echo $ratingErr ? "is-invalid": null;?>"
               id="rating"
               name="rating"
               placeholder="Enter rating"
             />
+            <div class="invalid-feedback">
+            <?php echo $ratingErr; ?>
+            </div>
           </div>      
           <div class="mb-3">
             <label for="name" class="form-label">Video URL</label>
