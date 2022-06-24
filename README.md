@@ -15,6 +15,12 @@ Extend the Feedback App with this functionality:
     - Display the URL on feedback items
 
 
+## Bonus
+
+- Feedback can be deleted
+
+
+
 
 
 
