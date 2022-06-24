@@ -18,6 +18,10 @@ $feedback= mysqli_fetch_all($result, MYSQLI_ASSOC);
             <div class="text-secondary mt-2">
               By <?php echo $item['name']; ?> on <?php echo $item['date'];?>
             </div>
+            <div class="text-secondary mt-2">
+              <a href="<?php echo $item['video_url']; ?>"><?php echo $item['video_url']; ?></a>
+              
+            </div>
           </div>
         </div>
         <?php endforeach; ?>

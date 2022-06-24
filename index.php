@@ -1,8 +1,8 @@
 <?php include 'inc/header.php';?>
 
 <?php
-$name=$email=$body="";
-$nameErr=$emailErr=$bodyErr="";
+$name=$email=$body=$videoURL=$rating="";
+$nameErr=$emailErr=$bodyErr=$videoURLErr="";
 
 //form submit
 if(isset($_POST['submit'])){
@@ -19,16 +19,24 @@ if(isset($_POST['submit'])){
     }else{
       $email=filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     }
- //validate the name
+ //validate the feedback
   if(empty($_POST['body'])){
     $bodyErr='Feedback is required';
     }else{
       $body=filter_input(INPUT_POST, 'body', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     }
+    //validate the video url
+    if(empty($_POST['video_url'])){
+    $videoURLErr='URL of video is required';
+    }else{
+      $videoURL=filter_input(INPUT_POST, 'video_url', FILTER_SANITIZE_URL);
+    }
 
-    if(empty($nameErr) && empty($emailErr) && empty($bodyErr)){
+    $rating= filter_input(INPUT_POST, 'rating', FILTER_SANITIZE_NUMBER_INT);
+
+    if(empty($nameErr) && empty($emailErr) && empty($bodyErr) && empty($videoURLErr)){
       //add to database
-      $sql = "INSERT INTO feedback (name,email,body) VALUES ('$name', '$email', '$body')";
+      $sql = "INSERT INTO feedback (name,email,body,video_url, rating) VALUES ('$name', '$email', '$body','$videoURL', '$rating')";
 
       if(mysqli_query($connection, $sql)){
         header('Location: feedback.php');
@@ -54,6 +62,29 @@ if(isset($_POST['submit'])){
             />
             <div class="invalid-feedback">
               <?php echo $nameErr;?>
+            </div>
+          </div>     
+           <div class="mb-3">
+            <label for="name" class="form-label">Rating</label>
+            <input
+              type="text"
+              class="form-control"
+              id="rating"
+              name="rating"
+              placeholder="Enter rating"
+            />
+          </div>      
+          <div class="mb-3">
+            <label for="name" class="form-label">Video URL</label>
+            <input
+              type="text"
+              class="form-control <?php echo $videoURLErr ? "is-invalid": null;?>"
+              id="video_url"
+              name="video_url"
+              placeholder="Enter video url"
+            />
+            <div class="invalid-feedback">
+              <?php echo $videoURLErr;?>
             </div>
           </div>
           <div class="mb-3">
