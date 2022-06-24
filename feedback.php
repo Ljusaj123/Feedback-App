@@ -3,7 +3,6 @@
 $sql='SELECT * FROM feedback';
 $result=mysqli_query($connection, $sql);
 $feedback= mysqli_fetch_all($result, MYSQLI_ASSOC);
-
 ?>
         <h2>Feedback</h2>
         <?php if(empty($feedback)): ?>
@@ -19,8 +18,18 @@ $feedback= mysqli_fetch_all($result, MYSQLI_ASSOC);
               By <?php echo $item['name']; ?> on <?php echo $item['date'];?>
             </div>
             <div class="text-secondary mt-2">
+              <p>Rating: <?php 
+              $x=$item['rating'];
+              if($x==0){
+                echo "no rating";
+              }else{
+                for ($x; $x > 0; $x--) {
+                  echo "*";
+                }
+              }; ?></p>
+            </div>
+              <div class="text-secondary mt-2">
               <a href="<?php echo $item['video_url']; ?>"><?php echo $item['video_url']; ?></a>
-              
             </div>
           </div>
         </div>
