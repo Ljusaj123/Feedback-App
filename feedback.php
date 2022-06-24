@@ -31,11 +31,18 @@ $feedback = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
         <div class="card my-3 w-75">
           <div class="card-body text-center">
-            <?php echo "#" . $id . " - " . $body; ?>
-            <div class="text-secondary mt-2">
-              By <?php echo $name; ?> on <?php echo $date; ?>
+            <div class="d-flex justify-content-between">
+              <h3><?php echo "#" . $id; ?></h3>
+              <p >From <span class="font-weight-bold"><?php echo $name; ?></span>, <?php echo $date; ?></p>
             </div>
-            <div class="text-secondary mt-2">
+            <div class="w-100 my-4">
+              <p>"<?php echo $body; ?>"</p>
+            </div>
+            <div class="my-2">
+              <a href="<?php echo $video_url; ?>"><?php echo $video_url; ?></a>
+            </div>
+            <div class="d-flex justify-content-between my-4">
+              <div class="text-secondary w-100  d-flex justify-content-start align-items-end">
               <p>Rating: <?php if ($rating == 0) {
                   echo "no rating";
               } else {
@@ -44,16 +51,11 @@ $feedback = mysqli_fetch_all($result, MYSQLI_ASSOC);
                   }
               } ?></p>
             </div>
-              <div class="text-secondary mt-2">
-              <a href="<?php echo $video_url; ?>"><?php echo $video_url; ?></a>
-            </div>
-            
-            <form action="feedback.php" method="POST">
+            <form action="feedback.php" method="POST" class="w-100 d-flex justify-content-end align-items-end">
               <input type="hidden" name="delete_id" value="<?php echo $id; ?>">
               <input type="submit" name="delete" value="Delete" class="btn btn-outline-dark mt-4">
-
             </form>
-            
+            </div>
           </div>
         </div>
         <?php endforeach; ?>
