@@ -1,8 +1,7 @@
 <?php include "inc/header.php"; ?>
 
 <?php
-$name = $email = $body = $videoURL = "";
-$rating = null;
+$name = $email = $body = $videoURL = $rating = "";
 $nameErr = $emailErr = $bodyErr = $videoURLErr = $ratingErr = "";
 
 //form submit
@@ -49,16 +48,14 @@ if (isset($_POST["submit"])) {
 
     if (empty($_POST["rating"])) {
         $rating = 0;
-        var_dump($rating);
     } elseif (
         filter_var($_POST["rating"], FILTER_VALIDATE_INT, [
             "options" => ["min_range" => $min, "max_range" => $max],
         ]) === false
     ) {
-        $ratingErr = "Rating should be in range of 1-5";
+        $ratingErr = "Rating should be in range of ${min}-${max}";
     } else {
         $rating = $_POST["rating"];
-        var_dump($rating);
     }
     if (
         empty($nameErr) &&

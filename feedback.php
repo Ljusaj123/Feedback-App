@@ -10,29 +10,32 @@ $feedback = mysqli_fetch_all($result, MYSQLI_ASSOC);
           <?php endif; ?>
 
         <?php foreach ($feedback as $item): ?>
+          <?php
+          $id = $item["id"];
+          $name = $item["name"];
+          $body = $item["body"];
+          $date = $item["date"];
+          $rating = $item["rating"];
+          $video_url = $item["video_url"];
+          ?>
 
         <div class="card my-3 w-75">
           <div class="card-body text-center">
-            <?php echo "#" . $item["id"] . " - " . $item["body"]; ?>
+            <?php echo "#" . $id . " - " . $body; ?>
             <div class="text-secondary mt-2">
-              By <?php echo $item["name"]; ?> on <?php echo $item["date"]; ?>
+              By <?php echo $name; ?> on <?php echo $date; ?>
             </div>
             <div class="text-secondary mt-2">
-              <p>Rating: <?php
-              $x = $item["rating"];
-              if ($x == 0) {
+              <p>Rating: <?php if ($rating == 0) {
                   echo "no rating";
               } else {
-                  for ($x; $x > 0; $x--) {
+                  for ($rating; $rating > 0; $rating--) {
                       echo "*";
                   }
-              }
-              ?></p>
+              } ?></p>
             </div>
               <div class="text-secondary mt-2">
-              <a href="<?php echo $item["video_url"]; ?>"><?php echo $item[
-    "video_url"
-]; ?></a>
+              <a href="<?php echo $video_url; ?>"><?php echo $video_url; ?></a>
             </div>
           </div>
         </div>
