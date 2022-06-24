@@ -1,9 +1,4 @@
 # To do
-
-- set short_open_tags
-- set prettier for php
-
-
 Extend the Feedback App with this functionality:
 - Display feedback ID on feedback items on the feedback listing page
 - Add a rating field to the feedback form so users can also leave a rating
